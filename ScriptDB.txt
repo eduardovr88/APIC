@@ -1,0 +1,69 @@
+
+CREATE DATABASE IF NOT EXISTS API;
+
+USE API;
+
+-- Crear la tabla Helado 
+CREATE TABLE IF NOT EXISTS Helado (
+    IdHelado INT AUTO_INCREMENT PRIMARY KEY,
+    Sabor VARCHAR(18),
+    Tamano VARCHAR(7),
+    Precio FLOAT(4)
+);
+
+-- Crear procedimiento almacenado para registrar un helado
+DELIMITER //
+CREATE PROCEDURE registrar(
+    IN p_sabor VARCHAR(18),
+    IN p_tamano VARCHAR(7),
+    IN p_precio FLOAT(4)
+)
+BEGIN
+    INSERT INTO Helado (Sabor, Tamano, Precio)
+    VALUES (p_sabor, p_tamano, p_precio);
+END;
+//
+DELIMITER ;
+
+-- Crear procedimiento almacenado para modificar un helado
+DELIMITER //
+CREATE PROCEDURE modificar(
+    IN p_id INT,
+    IN p_sabor VARCHAR(18),
+    IN p_tamano VARCHAR(7),
+    IN p_precio FLOAT(4)
+)
+BEGIN
+    UPDATE Helado
+    SET Sabor = p_sabor, Tamano = p_tamano, Precio = p_precio
+    WHERE IdHelado = p_id;
+END;
+//
+DELIMITER ;
+
+-- Crear procedimiento almacenado para obtener un helado por ID
+DELIMITER //
+CREATE PROCEDURE obtener(IN p_id INT)
+BEGIN
+    SELECT * FROM Helado WHERE IdHelado = p_id;
+END;
+//
+DELIMITER ;
+
+-- Crear procedimiento almacenado para listar todos los helados
+DELIMITER //
+CREATE PROCEDURE listar()
+BEGIN
+    SELECT * FROM Helado;
+END;
+//
+DELIMITER ;
+
+-- Crear procedimiento almacenado para eliminar un helado por ID
+DELIMITER //
+CREATE PROCEDURE eliminar(IN p_id INT)
+BEGIN
+    DELETE FROM Helado WHERE IdHelado = p_id;
+END;
+//
+DELIMITER ;
